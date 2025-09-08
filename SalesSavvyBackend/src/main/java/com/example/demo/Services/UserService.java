@@ -27,7 +27,7 @@ public class UserService {
 
 
 	public users registerUser(users user) {
-		if(userRepo.findByUsername(user.getUser_name()).isPresent()) {
+		if(userRepo.findByuserName(user.getUserName()).isPresent()) {
 			throw new RuntimeException("Username aready Exists");
 		}
 		

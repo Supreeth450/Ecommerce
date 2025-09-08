@@ -19,8 +19,8 @@ public class users {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int user_id;
 	
-	@Column(nullable = false, unique = true)
-	private String user_name;
+	@Column(name="user_name",nullable = false, unique = true)
+	private String userName;
 	
 	@Column(nullable = false, unique = true)
 	private String email;
@@ -47,7 +47,7 @@ public class users {
 			LocalDateTime updated_at) {
 		super();
 		this.user_id = user_id;
-		this.user_name = user_name;
+		this.userName = user_name;
 		this.email = email;
 		this.password = password;
 		this.role = role;
@@ -58,7 +58,7 @@ public class users {
 	public users(String user_name, String email, String password, Role role, LocalDateTime created_at,
 			LocalDateTime updated_at) {
 		super();
-		this.user_name = user_name;
+		this.userName = user_name;
 		this.email = email;
 		this.password = password;
 		this.role = role;
@@ -74,12 +74,12 @@ public class users {
 		this.user_id = user_id;
 	}
 
-	public String getUser_name() {
-		return user_name;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setUserName(String user_name) {
+		this.userName = user_name;
 	}
 
 	public String getEmail() {
