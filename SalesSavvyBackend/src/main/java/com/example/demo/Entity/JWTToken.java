@@ -26,7 +26,7 @@ public class JWTToken {
 	@Column(nullable = false)
 	private String token;
 	
-	@Column(nullable = false)
+	@Column(name = "expires_at")
 	private LocalDateTime expiresAt;
 
 	public JWTToken() {

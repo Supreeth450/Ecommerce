@@ -11,7 +11,7 @@ import com.example.demo.Entity.JWTToken;
 public interface JWTTokenRepository extends JpaRepository<JWTToken, Integer>{
 	
 	
-	@Query("SELECT t FROM JWTToken t WHERE t.user.userId = :userId")
+	@Query("SELECT t FROM JWTToken t WHERE t.user.id = :userId")
 	JWTToken findByuserId(@Param("userId") int userId);
 
 }
