@@ -14,6 +14,7 @@ import com.example.demo.Entity.users;
 import com.example.demo.Repositories.JWTTokenRepository;
 import com.example.demo.Repositories.UserRepository;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -30,6 +31,8 @@ public class AuthService {
 	private final JWTTokenRepository tokenRepo;
 	
 	private final BCryptPasswordEncoder passwordEncoder;
+	
+	private final String secret;
 
 	public AuthService(UserRepository userRepo, JWTTokenRepository tokenRepo, @Value("${jwt.secret}") String jwtSecret) {
 		super();
@@ -37,6 +40,8 @@ public class AuthService {
 		this.userRepo = userRepo;
 		this.tokenRepo = tokenRepo;
 		this.passwordEncoder = new BCryptPasswordEncoder();
+		
+		this.secret = jwtSecret;
 		
 		if(jwtSecret.getBytes(StandardCharsets.UTF_8).length < 64) {
 			throw new IllegalArgumentException("JWT_SECRET in application.properties must be at least 64 bytes long for HS512.");
@@ -98,14 +103,27 @@ public class AuthService {
 
 
 	public boolean validateToken(String token) {
-		
-		return false;
+		try {
+	        Jwts.parserBuilder()
+	            .setSigningKey(secret.getBytes())
+	            .build()
+	            .parseClaimsJws(token);
+	        return true;
+	    } catch (Exception e) {
+	        return false;
+	    }
 	}
 
 
 	public String extractUserEmail(String token) {
-	
-		return null;
+	    Claims claims = Jwts.parserBuilder()
+	        .setSigningKey(secret.getBytes())
+	        .build()
+	        .parseClaimsJws(token)
+	        .getBody();
+
+	    return claims.getSubject();  
 	}
+
 	
 }
