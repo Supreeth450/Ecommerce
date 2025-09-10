@@ -95,5 +95,17 @@ public class AuthService {
 				.signWith(SIGNING_KEY,SignatureAlgorithm.HS512)
 				.compact();
 	}
+
+
+	public boolean validateToken(String token) {
+		
+		return false;
+	}
+
+
+	public String extractUserEmail(String token) {
+	
+		return null;
+	}
 	
 }
