@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -103,27 +104,43 @@ public class AuthService {
 
 
 	public boolean validateToken(String token) {
-		try {
+	    try {
+	        System.err.println("VALIDATING TOKEN...");
+
 	        Jwts.parserBuilder()
-	            .setSigningKey(secret.getBytes())
+	            .setSigningKey(SIGNING_KEY)
 	            .build()
 	            .parseClaimsJws(token);
-	        return true;
+
+	        Optional<JWTToken> jwtToken = tokenRepo.findByToken(token);
+	        if (jwtToken.isPresent()) {
+	            System.err.println("Token Expiry: " + jwtToken.get().getExpiresAt());
+	            System.err.println("Current Time: " + LocalDateTime.now());
+	            return jwtToken.get().getExpiresAt().isAfter(LocalDateTime.now());
+	        }
+
+	        return false;
 	    } catch (Exception e) {
+	        System.err.println("Token validation failed: " + e.getMessage());
 	        return false;
 	    }
 	}
 
 
+
 	public String extractUserEmail(String token) {
-	    Claims claims = Jwts.parserBuilder()
+	    return Jwts.parserBuilder()
 	        .setSigningKey(secret.getBytes())
 	        .build()
 	        .parseClaimsJws(token)
-	        .getBody();
-
-	    return claims.getSubject();  
+	        .getBody()
+	        .getSubject();
+    
 	}
+	
+	
+	
+	
 
 	
 }
