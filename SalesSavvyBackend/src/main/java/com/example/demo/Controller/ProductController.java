@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,7 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
+	@GetMapping
 	public ResponseEntity<Map<String, Object>> getProducts(@RequestParam(required = false) String category,HttpServletRequest request) {
 	     
 		try {
@@ -48,13 +50,13 @@ public class ProductController {
 			
 			for(Product product : products) {
 				Map<String,Object> productDetails = new HashMap<>();
-				productDetails.put("product_id", product.getProduct_id());
+				productDetails.put("product_id", product.getProductId());
 				productDetails.put("name", product.getName());
 				productDetails.put("description", product.getDescription());
 				productDetails.put("price", product.getPrice());
 				productDetails.put("stock", product.getStock());
 				
-				List<String> images = productService.getProductImages(product.getProduct_id());
+				List<String> images = productService.getProductImages(product.getProductId());
 				productDetails.put("images", images);
 				productList.add(productDetails);
 				

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.Entity.Product;
@@ -15,5 +16,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
 	
 	
 	@Query("SELECT p.category.categoryName FROM Product p WHERE p.productId = :productId")
-	String findCategoryNameByProductId(int productId);
+	String findCategoryNameByProductId(@Param("productId") int productId);
 }

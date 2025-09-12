@@ -17,7 +17,8 @@ public class ProductImage {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int image_id;
+	@Column(name="image_id")
+	private int imageId;
 	
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "product_id", nullable = false)
@@ -31,9 +32,9 @@ public class ProductImage {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProductImage(int image_id, Product product, String imageUrl) {
+	public ProductImage(int imageId, Product product, String imageUrl) {
 		super();
-		this.image_id = image_id;
+		this.imageId = imageId;
 		this.product = product;
 		this.imageUrl = imageUrl;
 	}
@@ -44,12 +45,12 @@ public class ProductImage {
 		this.imageUrl = imageUrl;
 	}
 
-	public int getImage_id() {
-		return image_id;
+	public int getImageId() {
+		return imageId;
 	}
 
-	public void setImage_id(int image_id) {
-		this.image_id = image_id;
+	public void setImageId(int imageId) {
+		this.imageId = imageId;
 	}
 
 	public Product getProduct() {

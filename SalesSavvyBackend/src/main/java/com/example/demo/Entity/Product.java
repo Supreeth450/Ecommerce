@@ -18,7 +18,8 @@ public class Product {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int product_id;
+	@Column(name = "product_id")   
+    private int productId;
 	
 	@Column(nullable = false)
 	private String name;
@@ -48,10 +49,10 @@ public class Product {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Product(int product_id, String name, String description, BigDecimal price, int stock, Category category,
+	public Product(int productId, String name, String description, BigDecimal price, int stock, Category category,
 			LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super();
-		this.product_id = product_id;
+		this.productId = productId;
 		this.name = name;
 		this.description = description;
 		this.price = price;
@@ -73,12 +74,12 @@ public class Product {
 		this.updatedAt = updatedAt;
 	}
 
-	public int getProduct_id() {
-		return product_id;
+	public int getProductId() {
+		return productId;
 	}
 
-	public void setProduct_id(int product_id) {
-		this.product_id = product_id;
+	public void setProduct_id(int productId) {
+		this.productId = productId;
 	}
 
 	public String getName() {

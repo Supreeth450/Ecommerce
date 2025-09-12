@@ -123,7 +123,7 @@ public class AuthenticationFilter implements Filter{
 		
 		if(cookies!=null) {
 			return Arrays.stream(cookies)
-					.filter(cookie -> "authtoken".equals(cookie.getName()))
+					.filter(cookie -> "authToken".equals(cookie.getName()))
 					.map(Cookie::getValue)
 					.findFirst()
 					.orElse(null);
