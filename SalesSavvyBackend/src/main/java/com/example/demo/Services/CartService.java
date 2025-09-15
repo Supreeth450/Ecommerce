@@ -104,6 +104,31 @@ public class CartService {
 		
 		return response;
 		
+	}
+
+	public void updateCartItemQuantity(int user_id,int product_id,int quantity) {
+		
+		Product product = prodRepo.findById(product_id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+		
+		Optional<CartItem> existingItem = cartRepo.findByusersAndProduct(user_id, product_id);
+		
+		if(existingItem.isPresent()) {
+			if(quantity == 0) {
+				deleteCartItem(user_id,product_id);
+			} else {
+		        CartItem cartitem = existingItem.get();
+		        cartitem.setQuantity(quantity);
+		        cartRepo.save(cartitem);
+			}
+		}
+	}
+
+	public void deleteCartItem(int user_id, int product_id) {
+		Product product = prodRepo.findById(product_id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+		
+		cartRepo.deleteCartItem(user_id,product_id);
 		
 	}
+	
+	
 }

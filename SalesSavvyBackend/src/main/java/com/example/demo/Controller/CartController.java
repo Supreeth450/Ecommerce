@@ -7,8 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,7 +67,32 @@ public class CartController {
 	}
 	
 	
+	@PutMapping("/update")
+	public ResponseEntity<Void> updateCartItemsQuantity(@RequestBody Map<String,Object> request){
+		String username = (String) request.get("username");
+		int product_id = (int) request.get("productId");
+		int quantity = (int) request.get("quantity");
+		
+		users user = userRepo.findByuserName(username).orElseThrow(() -> new IllegalArgumentException("User Not found with username:" +username));
+		
+		cartService.updateCartItemQuantity(user.getUser_id(),product_id,quantity);
+
+		return ResponseEntity.status(HttpStatus.OK).build();
+		
+	}
 	
+	
+	@DeleteMapping("/delete")
+	public ResponseEntity<Void> deleteCartItem(@RequestBody Map<String,Object> request) {
+		String username = (String) request.get("username");
+		int product_id = (int) request.get("productId");
+		
+		users user = userRepo.findByuserName(username).orElseThrow(() -> new IllegalArgumentException("User Not found with username:" +username));
+		
+		cartService.deleteCartItem(user.getUser_id(),product_id);
+		
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
 	
 	
 
