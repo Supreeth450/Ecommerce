@@ -18,6 +18,8 @@ import com.example.demo.Entity.users;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Services.CartService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api/cart")
 @CrossOrigin(origins = "http://localhost:5173",allowCredentials = "true")
@@ -52,6 +54,17 @@ public class CartController {
 		
 		return ResponseEntity.ok(count);
 	}
+	
+	@GetMapping("/items")
+	public ResponseEntity<Map<String,Object>> getCartItems(HttpServletRequest request) {
+		users user = (users) request.getAttribute("authenticatedUser");
+		
+		Map<String,Object> cartItems= cartService.getCartItems(user.getUser_id());
+		
+		return ResponseEntity.ok(cartItems);
+	}
+	
+	
 	
 	
 	
