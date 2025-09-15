@@ -46,7 +46,7 @@ public class CartService {
 	}
 
 	public int countbyId(int userId) {
-		int count = cartRepo.countByUserId(userId);
+		int count = cartRepo.getCartItemCount(userId);
 		return count;
 	}
 }

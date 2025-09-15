@@ -16,7 +16,7 @@ public interface CartRepository extends JpaRepository<CartItem, Integer>{
 	@Query("SELECT c FROM CartItem c where c.user.user_id=:userId AND c.product.productId=:productId")
 	Optional<CartItem> findByusersAndProduct(@Param("userId") int userId, @Param("productId") int productId);
 
-	@Query("SELECT COUNT(c) FROM CartItem c WHERE c.user.user_id = :userId")
-	int countByUserId(@Param("userId") int userId);
+	@Query("SELECT COALESCE(sum(c.quantity),0) From CartItem c  c.user.user_id = :userId")
+	int getCartItemCount(@Param("userId") int userId);
 
 }
