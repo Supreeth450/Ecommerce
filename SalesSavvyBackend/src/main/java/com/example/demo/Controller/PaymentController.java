@@ -71,9 +71,34 @@ public class PaymentController {
 		}
 	}
 	
-	
-	
-	
-	
+	@PostMapping("/verify")
+	public ResponseEntity<String> verifyPayment(@RequestBody Map<String,Object> requestBody, HttpServletRequest request) {
+		try {
+			users user = (users) request.getAttribute("authenticatedUser");
+			
+			if(user == null) {
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
+			}
+			
+			int userId = user.getUser_id();
+			
+			String razorpayOrderId = (String) requestBody.get("razorpayOrderId");
+			String razorpayPaymentId = (String) requestBody.get("razorpayPaymentId");
+            String razorpaySignature = (String) requestBody.get("razorpaySignature");
+            
+            boolean isVerified = paymentService.verifyPayment(razorpayOrderId,razorpayPaymentId,razorpaySignature,userId);
+            
+            if(isVerified) {
+            	return ResponseEntity.ok("Payment verified successfully");
+            }
+            else {
+            	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Payment verification failed");
+            }
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error verifying payment: " +e.getMessage());
+		}
+	}	
 	
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.Entity.CartItem;
 import com.example.demo.Entity.Order;
 import com.example.demo.Entity.OrderItem;
 import com.example.demo.Entity.OrderStatus;
@@ -66,6 +67,51 @@ public class PaymentService {
 		 
 		 return razorpayOrder.get("id");
 	}
+
+     @Transactional
+	 public boolean verifyPayment(String razorpayOrderId, String razorpayPaymentId, String razorpaySignature,int userId) {
+		try {
+		JSONObject attributes = new JSONObject();
+		attributes.put("razorpay_order_id", razorpayOrderId);
+		attributes.put("razorpay_payment_id", razorpayPaymentId);
+		attributes.put("razorpay_signature", razorpaySignature);
+		
+		boolean isSignatureValid = com.razorpay.Utils.verifyPaymentSignature(attributes, razorpayKeySecret);
+		
+		if(isSignatureValid) {
+			Order order = orderRepo.findById(razorpayOrderId).orElseThrow(() -> new RuntimeException("Order not found"));
+			order.setStatus(OrderStatus.SUCCESS);
+			order.setUpdatedAt(LocalDateTime.now());
+			orderRepo.save(order);
+			
+			List<CartItem> cartItems = cartRepo.findCartItemsWithProductDetails(userId);
+			
+			for(CartItem cartItem : cartItems) {
+				OrderItem orderItem = new OrderItem();
+				orderItem.setOrder(order);
+				orderItem.setProductId(cartItem.getProduct().getProductId());
+				orderItem.setQuantity(cartItem.getQuantity());
+				orderItem.setPricePerCount(cartItem.getProduct().getPrice());
+				
+				orderItem.setTotalPrice(cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
+				orderItemRepo.save(orderItem);
+				
+				cartRepo.deleteAllCartItemsByUserId(userId);
+							
+			}
+			return true;
+		}
+		
+		else {
+			return false;
+		}
+		
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	 }
 	
 	
 
