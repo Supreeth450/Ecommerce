@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,6 +25,9 @@ public class Order {
 	@Column(name="user_id",nullable = false)
 	private int userId;
 	
+	@Column(name="total_amount",nullable = false)
+	private BigDecimal totalAmount;
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name="status", nullable=false)
 	private OrderStatus status;
@@ -42,11 +46,12 @@ public class Order {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Order(String orderId, int userId, OrderStatus status, LocalDateTime createdAt, LocalDateTime updatedAt,
+	public Order(String orderId, int userId, BigDecimal totalAmount, OrderStatus status, LocalDateTime createdAt, LocalDateTime updatedAt,
 			List<OrderItem> orderItems) {
 		super();
 		this.orderId = orderId;
 		this.userId = userId;
+		this.totalAmount = totalAmount;
 		this.status = status;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
@@ -59,6 +64,15 @@ public class Order {
 
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
+	}
+
+	
+	public BigDecimal getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(BigDecimal totalAmount) {
+		this.totalAmount = totalAmount;
 	}
 
 	public int getUserId() {
