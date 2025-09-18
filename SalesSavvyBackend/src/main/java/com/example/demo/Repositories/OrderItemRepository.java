@@ -15,6 +15,6 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Integer>{
 	List<OrderItem> findByOrderId(String orderId);
 	
 	
-	@Query("SELECT oi FROM OrderItem oi WHERE oi.order.user_id = :userId AND oi.order.status = 'SUCCESS'")
+	@Query("SELECT oi FROM OrderItem oi WHERE oi.order.userId = :userId AND oi.order.status = 'SUCCESS'")
 	List<OrderItem> findSuccessfulOrderItemsByUserId(int userId);
 }
