@@ -31,10 +31,8 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_SECURITY_ENABLED: false
       SPRING_AUTOCONFIGURE_EXCLUDE: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
-
       JWT_SECRET: our-very-long-secure-secret-key-for-production-12345678901234567890
       JWT_EXPIRATION: 3600000
-
       RAZORPAY_KEY_ID: rzp_test_RIC94zkP6AVH6a
       RAZORPAY_KEY_SECRET: kHJMjcgpGpNxf44TH4Jbmx2k
     volumes:
@@ -49,6 +47,6 @@ services:
     depends_on:
       - app
     restart: unless-stopped
-	  
+
 volumes:
   mysql_data:
