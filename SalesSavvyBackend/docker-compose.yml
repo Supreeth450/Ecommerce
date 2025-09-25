@@ -41,5 +41,14 @@ services:
       - ./src/main/resources/application.properties:/app/config/application.properties
     restart: unless-stopped
 
+  frontend:
+    build: ./Ecommerce
+    container_name: salessavvy-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - app
+    restart: unless-stopped
+		  
 volumes:
   mysql_data:
