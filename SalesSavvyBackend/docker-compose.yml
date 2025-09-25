@@ -49,6 +49,6 @@ services:
     depends_on:
       - app
     restart: unless-stopped
-		  
+	  
 volumes:
   mysql_data:
