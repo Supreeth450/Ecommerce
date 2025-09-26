@@ -113,7 +113,7 @@ docker-compose up --build
 ```
 
 * Backend API: `http://localhost:9090`
-* MySQL: `localhost:3306` (username: `root`, password: `8277006863`)
+* MySQL: `localhost:3306` (username: `root`, password: `SQLPassword`)
 
 ---
 
