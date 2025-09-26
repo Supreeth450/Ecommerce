@@ -82,7 +82,7 @@ SalesSavvy backend is fully dockerized for easy deployment.
 
   ```yaml
   environment:
-    MYSQL_ROOT_PASSWORD: 8277006863
+    MYSQL_ROOT_PASSWORD: SQL Password
     MYSQL_DATABASE: Ecommerce
   ```
 * Maps MySQL port `3306` and backend port `9090`
